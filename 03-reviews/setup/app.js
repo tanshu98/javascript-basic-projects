@@ -29,56 +29,83 @@ const reviews = [
     text: 'Edison bulb put a bird on it humblebrag, marfa pok pok heirloom fashion axe cray stumptown venmo actually seitan. VHS farm-to-table schlitz, edison bulb pop-up 3 wolf moon tote bag street art shabby chic. ',
   },
 ];
-// select items
-const img = document.getElementById('person-img');
-const author = document.getElementById('author');
-const job = document.getElementById('job');
-const info = document.getElementById('info');
+
+// Select Items
+
+const img = document.querySelector('#person-img');
+console.log(img);
+const author = document.querySelector('#author')
+const job = document.querySelector('#job')
+const info = document.querySelector('#info')
+console.log(job, info);
 
 const prevBtn = document.querySelector('.prev-btn');
 const nextBtn = document.querySelector('.next-btn');
 const randomBtn = document.querySelector('.random-btn');
+console.log(prevBtn, nextBtn, randomBtn);
 
-// set starting item
-let currentItem = 0;
+// Now what we want is..on the page load..we wanna load the 1st item
 
-// load initial item
-window.addEventListener('DOMContentLoaded', function () {
-  const item = reviews[currentItem];
-  img.src = item.img;
-  author.textContent = item.name;
-  job.textContent = item.job;
-  info.textContent = item.text;
-});
+// Set starting item
 
-// show person based on item
-function showPerson(person) {
-  const item = reviews[person];
-  img.src = item.img;
-  author.textContent = item.name;
-  job.textContent = item.job;
-  info.textContent = item.text;
+let currentItem = 0
+
+// So for this..there's an event..which will actually fire when the webpage loads..
+// Also..since..we wanna fire this event on webpage load..we will add event listner to the window object!!
+
+window.addEventListener('DOMContentLoaded', function() {
+  console.log('Event fires when the dom loads!!');
+  // Now we want to display the first review item..on dom load..
+  // There are mutliple ways to do that..
+
+  // The thing is we have already created html..i.e hard coded everything..then why this..
+
+  // Well this makes our website much more dynamic..
+
+  // So here we have stored the data in array of objects..and when the window loads..we are displaying the content based on the current item..
+
+  // Function call here
+  showPerson(currentItem)
+  console.log('This function has run');
+  
+  
+})
+
+// Now its better to wrap everything in a function..since we wanna use this same logic in couple of places..
+
+const showPerson = function(person) {
+  let item = reviews[person];
+  img.src = item.img // pls note - img is an object..Also..img.src is used to change the src of the image using js!
+  author.innerHTML = item.name;
+  job.innerHTML = item.job;
+  info.innerHTML = item.text;
+  console.log('Inside this function');
 }
-// show next person
-nextBtn.addEventListener('click', function () {
+
+// Show next person
+
+nextBtn.addEventListener('click', function() {
   currentItem++;
-  if (currentItem > reviews.length - 1) {
+  // By incrementing the currentItem..we will able to show different person..everytime we click on the button..
+  if(currentItem > reviews.length - 1) {
     currentItem = 0;
   }
   showPerson(currentItem);
-});
-// show prev person
-prevBtn.addEventListener('click', function () {
-  currentItem--;
-  if (currentItem < 0) {
-    currentItem = reviews.length - 1;
-  }
-  showPerson(currentItem);
-});
-// show random person
-randomBtn.addEventListener('click', function () {
-  console.log('hello');
+})
 
+// Show Previous Person - 
+
+prevBtn.addEventListener('click', function() {
+  currentItem --;
+  if(currentItem < 0) {
+    currentItem = reviews.length -1;
+  }
+  showPerson(currentItem)
+})
+
+// Show Random Person
+
+randomBtn.addEventListener('click', function() {
   currentItem = Math.floor(Math.random() * reviews.length);
-  showPerson(currentItem);
-});
+  showPerson(currentItem)
+})
